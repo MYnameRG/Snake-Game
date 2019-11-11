@@ -1,0 +1,227 @@
+<!Doctype HTML>
+<html>
+    <head>
+        <title>Snake Game</title>
+    </head>
+    <body onload="storeData()">
+        <script>
+            //Count of the Pause Button
+            var count = 1;
+            //Score updation
+            var score = 0;
+
+            //Build the setup
+            document.documentElement.style.margin = "auto";
+            document.documentElement.style.height = "100%";
+            document.body.style.backgroundColor = "grey";
+            document.documentElement.style.display = "flex";
+            document.documentElement.style.alignItems = "center";
+            document.documentElement.style.justifyContent = "center";
+            var canvas = document.createElement("canvas");
+            canvas.setAttribute("id","draw");
+            canvas.setAttribute("height",400);
+            canvas.setAttribute("width",400);
+            document.body.appendChild(canvas);
+            canvas.style.border = "3px solid white";
+            canvas.style.backgroundColor = "black";
+
+            //Build the game
+            var board = document.getElementById("draw").getContext("2d");
+            var dimension = 16;
+
+            //Make the object of food
+            var food =
+            {
+                x : 320 ,
+                y : 320
+            };
+
+            //Apply the food on the board
+            function applyFood()
+            {
+                //Apply circle as food
+                board.beginPath();
+                board.arc(food.x + dimension/2, food.y + dimension/2, 8, 0, 2 * Math.PI);
+                board.strokeStyle = "red";
+                board.fillStyle = "red";
+                board.fill();
+                board.stroke();
+
+                //Apply rectangle as food
+                /*board.fillStyle = "red";
+                board.fillRect(food.x,food.y,dimension,dimension);*/
+            }
+            applyFood();
+
+            //Make the object of snake
+            var snake =
+            {
+                x : 160 ,
+                y : 160 ,
+                parts : [{x: 160 , y: 160},{ x: 144 , y: 160}]
+            }
+
+            //Apply the snake's body on the board
+            function applySnake()
+            {
+                board.fillStyle = "green";
+                for(let i=0; i<snake.parts.length; i++)
+                {
+                    board.fillRect(snake.parts[i].x, snake.parts[i].y, dimension-1, dimension-1);
+                }
+            }
+            applySnake();
+
+            //Setup Controller of the snake's body
+            document.addEventListener('keydown',handleKeyDown,false);
+
+            function handleKeyDown(e)
+            {
+                //left arrow key down
+                if(e.keyCode == 37)
+                {
+                    snake.x+=-dimension;
+                    snake.y+=0;
+                    //gameOver();
+                }
+                //up arrow key down
+                else if(e.keyCode == 38)
+                {
+                    snake.x+=0;
+                    snake.y+=-dimension;
+                    //gameOver();
+                }
+                //right arrow key down
+                else if(e.keyCode == 39)
+                {
+                    snake.x+=dimension;
+                    snake.y+=0;
+                    //gameOver();
+                }
+                //down arrow key down
+                else if(e.keyCode == 40)
+                {
+                    snake.x+=0;
+                    snake.y+=dimension;
+                    //gameOver();
+                }
+                board.clearRect(0,0,canvas.height,canvas.width);
+                gameOver();
+                moveTheBody(snake.x,snake.y);
+                applyFood();
+            }
+
+            //Setup the Pause condition of the Game
+            document.addEventListener('keydown',handleEnterKey,false);
+
+            function handleEnterKey(e)
+            {
+                if(e.keyCode == 13)
+                {
+                    if(count%2 != 0)
+                    {
+                        document.removeEventListener('keydown',handleKeyDown,false);
+                        pauseText();
+                        count++;
+                    }
+                    else
+                    {
+                        board.clearRect(0,0,canvas.height,canvas.width);
+                        document.addEventListener('keydown',handleKeyDown,false);
+                        applySnake();
+                        applyFood();
+                        count++;
+                    }
+                }
+            }
+
+            //Show the Pause Text on Canvas
+            function pauseText()
+            {
+                board.textAllign = "center";
+                board.font = "30px Comic Sans MS";
+                board.fillStyle = "red";
+                board.fillText("Pause",160,200);
+            }
+
+            //Movement of the snake's body
+            function moveTheBody(cx,cy)
+            {
+                snake.parts.unshift({x : cx , y : cy});
+                snake.parts.pop();
+                foodEaten();
+                applySnake();
+            }
+
+            //Eating the Food ---> 1.coordinates matching 2.using getImageDta
+            function foodEaten()
+            {
+                if(snake.x == food.x && snake.y == food.y)
+                {
+                    food.x = Math.floor(Math.random() * 25)*16;
+                    food.y = Math.floor(Math.random() * 25)*16;
+                    /*var ImgData = board.getImageData(food.x,food.y,dimension-1,dimension-1);
+
+                    if(ImgData.data[1] != 255)
+                    {
+                        continue start;
+                    }
+                    else
+                    {
+                        break start;
+                    }
+                    }*/
+                    board.clearRect(0,0,canvas.height,canvas.width);
+                    snakeLength(snake.x,snake.y);
+                    score += 5;
+                }
+                scoreBoard(score);
+            }
+            scoreBoard(score);
+
+            //Increase the length of Snake
+            function snakeLength(cx,cy)
+            {
+                snake.x = cx;
+                snake.y = cy;
+                snake.parts.unshift({x : cx , y : cy});
+                board.clearRect(0,0,canvas.height,canvas.width);
+                applySnake();
+                applyFood();
+            }
+
+            //Show And Increase the Score 
+            function scoreBoard(score)
+            {
+                board.fillStyle = "white";
+                board.font = "30px Arial";
+                board.fillText(score,30,50);
+                applySnake();
+                applyFood();
+            }
+
+            //due to wall collision end the game
+            function gameOver()
+            {
+                for(let i=0; i<400; i++)
+                {
+                    if((snake.x == i && snake.y == 0) || (snake.x == 0 && snake.y == i) || (snake.x == i && snake.y == 400) || (snake.x == 400 && snake.y == i))
+                    {
+                        document.removeEventListener('keydown',handleKeyDown,false);
+                        document.removeEventListener('keydown',handleEnterKey,false);
+                        board.textAllign = "center";
+                        board.fillStyle = "red";
+                        board.font = "30px Arial";
+                        board.fillText("Game Over",130,200);
+                    }
+                }
+            }
+
+            //localStorage using to store score and coordinates
+            function storeData()
+            {
+
+            }
+        </script>
+    </body>
+</html>
