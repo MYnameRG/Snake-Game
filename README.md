@@ -54,6 +54,7 @@ This game demonstrates canvas rendering, keyboard event handling, game logic, an
 **1️⃣ Clone or Download**
 
 git clone https://github.com/yourusername/snake-game.git
+
 cd snake-game
 
 **2️⃣ Open in Browser**
