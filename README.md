@@ -3,6 +3,7 @@
 A simple **browser-based Snake Game** built using **HTML5 Canvas** and **vanilla JavaScript**.
 This game demonstrates canvas rendering, keyboard event handling, game logic, and dynamic updates without external libraries.
 
+
 **🧑‍💻 Author**
 
 1. Developed by: **Rohit Gupta**
@@ -10,6 +11,7 @@ This game demonstrates canvas rendering, keyboard event handling, game logic, an
 2. Language: **JavaScript**
 
 3. Purpose: Educational project to demonstrate **core JavaScript and Canvas game mechanics**.
+
 
 **🎮 Features**
 
@@ -27,6 +29,8 @@ This game demonstrates canvas rendering, keyboard event handling, game logic, an
 
 <img width="1252" height="632" alt="image" src="https://github.com/user-attachments/assets/fdaec02c-575f-4cdb-a260-3669f8552eb9" />
 
+
+
 **🕹️ How to Play**
 
 1. Open the snake.html file in any modern web browser.
@@ -41,6 +45,7 @@ This game demonstrates canvas rendering, keyboard event handling, game logic, an
 
 <img width="1466" height="752" alt="image" src="https://github.com/user-attachments/assets/9ce45944-a32c-41cc-9155-499ac5cc8b13" />
 
+
 **🧰 Technologies Used**
 
 1. **HTML5 Canvas** for rendering graphics.
@@ -48,6 +53,7 @@ This game demonstrates canvas rendering, keyboard event handling, game logic, an
 2. **Vanilla JavaScript (ES5)** for logic and game control.
 
 3. **CSS (inline)** for layout and basic styling.
+
 
 **🚀 Getting Started**
 
