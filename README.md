@@ -55,6 +55,8 @@ This game demonstrates canvas rendering, keyboard event handling, game logic, an
 3. **CSS (inline)** for layout and basic styling.
 
 
+
+
 **🚀 Getting Started**
 
 **1️⃣ Clone or Download**
